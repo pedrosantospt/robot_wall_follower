@@ -19,7 +19,7 @@ pos = []
 def home(x,y):
     flag_init[0] = 0
     teta[0] = random.randint(0,359) # RANDOM THE TETA
-    pos[:] = []	
+    pos[:] = []
     turtle.hideturtle()
     turtle.clear()
     turtle.pu()
@@ -34,7 +34,7 @@ def init():
     turtle.clear()
     turtle.pu()
     turtle.speed(0)
-    turtle.pensize(20)
+    turtle.pensize(15)
     turtle.color("grey")
     turtle.goto(-220,220)
     turtle.pd()
@@ -50,14 +50,14 @@ def start(x,y):
 
     init()
 
-    
+
     while x > -210 and x < 210 and y > -210 and y <210:
         turtle.listen()
         turtle.setx(turtle.position()[0] + v*cos(teta[0]))
         turtle.sety(turtle.position()[1] + v*sin(teta[0]))
         move()
         x = turtle.xcor()
-        y = turtle.ycor()        
+        y = turtle.ycor()
 
     wallhit()
 
@@ -71,14 +71,14 @@ def move():
     turtle.stamp()
     x = turtle.xcor()
     y = turtle.ycor()
-    if flag_init[0] > 0:     
+    if flag_init[0] > 0:
         turtle.clearstamps(1)
         pos.insert(0,[round(x),round(y)])
         pos.pop(-1)
     else:
-        pos.insert(0,[round(x),round(y)])       
+        pos.insert(0,[round(x),round(y)])
         flag_init[0] += 1
-    
+
 def wallhit():
     turtle.onscreenclick(None)
     turtle.speed(0)
@@ -88,6 +88,6 @@ def wallhit():
     turtle.write("WALL HIT!",align="center", font=(10))
     turtle.onscreenclick(home)
     turtle.mainloop()
-    
+
 if __name__ == '__main__':
     home(0,0)
