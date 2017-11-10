@@ -1,0 +1,2 @@
+robo_control:robo_world
+-DCATKIN_DEVEL_PREFIX=/home/ps/FEUP/Assign2/robot_wall_follower/devel -DCMAKE_INSTALL_PREFIX=/home/ps/FEUP/Assign2/robot_wall_follower/install -G Unix Makefiles

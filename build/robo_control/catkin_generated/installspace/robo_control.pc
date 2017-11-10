@@ -1,0 +1,8 @@
+prefix=/home/ps/FEUP/Assign2/robot_wall_follower/install
+
+Name: robo_control
+Description: Description of robo_control
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/ps/FEUP/Assign2/robot_wall_follower/install/lib 
+Requires: 
