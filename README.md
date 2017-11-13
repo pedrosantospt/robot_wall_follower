@@ -1,6 +1,6 @@
 # robot_wall_follower
 
-**Directory Structure**
+## Directory Structure
 src/  
 ├── CMakeLists.txt -> /opt/ros/kinetic/share/catkin/cmake/toplevel.cmake  
 ├── robo_control  
@@ -25,15 +25,15 @@ src/
         ├── world_D_robot_inside.world  
         └── world_D_robot_outside.world  
 
-**Requirements**
+## Requirements
 
 Gazebo 7.0
 Turtlebot-sim
 
 
-**How to compile**
+## How to compile
 ```
-git clone ...
+git clone https://github.com/pedrosantospt/robot_wall_follower
 ```
 ```
 cd robot_wall_follower
@@ -48,10 +48,11 @@ rm src/CMakeLists.txt
 catkin_make
 ```
 
-**How to execute**
+## How to execute
 ```
 source devel/setup.bash
 ```
+### Choose one map:
 Map "D": robot wanders at random until find wall, then follows wall forever (inside wall)
 ```
 roslaunch robo_world spawn_world_D_inside.launch
@@ -63,4 +64,14 @@ roslaunch robo_world spawn_world_D_outside.launch
 For extra merit, create randomly a robot in between a small D and a large D arena
 ```
 roslaunch robo_world spawn_world_DD_between.launch
+```
+
+### Run the control program:
+In new terminal(Ctrl+Shift+N):
+```
+source devel/setup.bash
+```
+The control program to move the robot:
+```
+rosrun robo_control robo_control
 ```
