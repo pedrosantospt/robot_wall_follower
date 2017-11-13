@@ -117,12 +117,12 @@ void laser_callback ( const sensor_msgs::LaserScan::ConstPtr &scan_msg ) {
         motor_command.linear.x = rand()%2 - 0.5;
       } else if(minIndex_t1 < (middle_Index)){
         motor_command.angular.z = - normalize(minIndex_t1, middle_Index, 0) * MAX_VEL;
-        motor_command.linear.x = normalize(range_in_the_middle, WALL_DIST, WALL_DIST * 2) * MAX_VEL;
+        motor_command.linear.x = normalize(range_in_the_middle, 1.6, 4) * MAX_VEL;
       } else if (minIndex_t1 > (middle_Index)){
         motor_command.angular.z = - normalize(minIndex_t1,laser_ranges.size(), middle_Index) * MAX_VEL;
-        motor_command.linear.x = normalize(range_in_the_middle, WALL_DIST, WALL_DIST * 2) * MAX_VEL;
+        motor_command.linear.x = normalize(range_in_the_middle, 1.6, 4) * MAX_VEL;
       } else {
-        motor_command.linear.x = normalize(range_in_the_middle, WALL_DIST, WALL_DIST * 2) * MAX_VEL;
+        motor_command.linear.x = normalize(range_in_the_middle, 1.6, 4) * MAX_VEL;
         if (fabs(motor_command.linear.x)<0.1){
           state++;
         }
@@ -134,13 +134,18 @@ void laser_callback ( const sensor_msgs::LaserScan::ConstPtr &scan_msg ) {
       // Calculate error
       double error = WALL_DIST - laser_ranges[0];
 
+      //Control the angular velocity with a PD controller
       motor_command.angular.z = PID_controller(laser_ranges[0], WALL_DIST);
-      motor_command.linear.x = ((fabs(error) - 1.5) / (0 - 1.5 )) * 0.7 > 0 ? ((fabs(error) - 1.5) / (0 - 1.5 )) * 0.7 : 0;//0.6*MAX_VEL; //0.25 = Maxspeed;//0.4;
 
+      //if error too high will decrease the velocity
+      motor_command.linear.x = normalize(fabs(error), 1.5, 0) * MAX_VEL > 0 ? normalize(fabs(error), 1.5, 0) * MAX_VEL : 0;
+
+      //too close to the wall
       if(laser_ranges[middle_Index] < 1.2){
-          motor_command.linear.x = - ((fabs(error) - 1.2) / (0 - 1.2 )) * 0.1;
+        motor_command.linear.x = - normalize(fabs(error), 1.2, 0) * 0.1;
       }
 
+      //almost dont see walls... maybe a 90 degree curve?
       if(is_nan/laser_ranges.size() > 0.85){ //HACK to the curves....
         motor_command.linear.x +=0.8 * (is_nan/laser_ranges.size());
       }
